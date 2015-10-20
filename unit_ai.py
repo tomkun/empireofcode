@@ -90,11 +90,12 @@ class Map(object):
             cost = total_cost[current]+1
             nodes = self.get_adjacent(current[0], current[1])
             for node in nodes:
-                node_type = self._data[node[0]][node[1]]
+                x,y = node
+                node_type = self._data[x][y]
                 if (node_type == TILE.EMPTY or node in dest) and (node not in total_cost or cost < total_cost[node]):
                     total_cost[node] = cost 
                     origin[node] = current
-                    fringe.put(node, cost+heuristic(node[0], node[1]))
+                    fringe.put(node, cost+heuristic(x, y))
         else:     
             return []
 
@@ -143,9 +144,12 @@ class Map(object):
         return cells
 
     def get_adjacent(self, x0,y0, diag = True):
-        """ 7 8 9
+        """
+        Returns a list of tuples of coords adjacent to (x0,y0)
+            7 8 9
             4 @ 6
-            1 2 3   """
+            1 2 3   
+        """
         res =[]
         if x0>0:
             res.append((x0-1,y0))       # 4
